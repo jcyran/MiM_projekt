@@ -1,6 +1,6 @@
 #include "WeatherAPI.h"
 
-void fetch_data() {
+void fetch_data(APIValues& values) {
   //Check WiFi connection
   if (WiFi.status() == WL_CONNECTED) {
     //Create client
@@ -9,7 +9,7 @@ void fetch_data() {
     Serial.print("\nMaking HTTP request to URL: ");
     Serial.println(server);
 
-    sendRequest(http);
+    sendRequest(http, values);
 
     //Close the connection
     http.end();
@@ -19,7 +19,7 @@ void fetch_data() {
   }
 }
 
-void sendRequest(HTTPClient& http) {
+void sendRequest(HTTPClient& http, APIValues& values) {
     //Send HTTP request
     int httpResponseCode = http.GET();
     Serial.print("HTTP response code: "); Serial.println(httpResponseCode);
@@ -31,12 +31,8 @@ void sendRequest(HTTPClient& http) {
       JsonObject obj = doc.as<JsonObject>();
 
       //Get your json data
-      tempAPI = obj["current"]["temp_c"];
-      humidAPI = obj["current"]["humidity"];
-      pressAPI = obj["current"]["pressure_mb"];
-
-      Serial.print("Temperature: "); Serial.println(tempAPI);
-      Serial.print("Humidity: "); Serial.println(humidAPI);
-      Serial.print("Pressure: "); Serial.println(pressAPI);
+      values.temp = obj["current"]["temp_c"];
+      values.humid = obj["current"]["humidity"];
+      values.press = obj["current"]["pressure_mb"];
     }
 }

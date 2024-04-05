@@ -1,13 +1,12 @@
-#ifndef WEBSERVER_H
-#define WEBSERVER_H
+#pragma once
 
 #include <WiFi.h>
+#include <ESPAsyncWebServer.h>
+#include <SPIFFS.h>
 
 //WiFi
-const char* ssid = "yourSSID";
-const char* password = "yourPassword";
+static const char* ssid = "your_ssid";
+static const char* password = "your_password";
 
-//Connect to wifi
-void WiFiInit();
-
-#endif
+void checkWiFiConnectionTask(void*);
+void handleRequests(AsyncWebServer&, String (*)(const String&));
