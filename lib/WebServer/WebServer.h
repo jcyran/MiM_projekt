@@ -5,8 +5,8 @@
 #include <SPIFFS.h>
 
 //WiFi
-static const char* ssid = "UPC4539894";
-static const char* password = "zE8pdfFsdben";
+static const char* ssid = "MiM_projekt";
+static const char* password = "projektmim";
 
 void checkWiFiConnectionTask(void*);
 void handleRequests(AsyncWebServer&, String (*)(const String&));

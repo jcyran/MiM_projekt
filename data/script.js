@@ -9,9 +9,13 @@ const humidityIconNames = ["humidity_low", "humidity_mid", "humidity_high"];
 const temperatureIconNames = ["ac_unit", "thermometer", "mode_heat"];
 
 const updateValues = function () {
+  location.reload();
+
+  // temperatureValue = newDoc.getElementById("temperature");
+  // humidityValue = newDoc.getElementById("humidity");
+
   const tempV = temperatureValue.textContent;
-  console.log(tempV);
-  console.log(temperatureIcon);
+
   if (tempV <= 0) temperatureIcon.textContent = temperatureIconNames[0];
   else if (tempV > 0 && tempV < 30)
     temperatureIcon.textContent = temperatureIconNames[1];
@@ -24,4 +28,16 @@ const updateValues = function () {
   else if (humV > 70) humidityIcon.textContent = humidityIconNames[2];
 };
 
-setInterval(updateValues, 1000);
+
+setInterval(updateValues, 5000);
+
+const test = async function(){
+  const newDoc = await fetch("http://192.168.121.223/").then(response=>response.text());
+  console.log(newDoc);
+  const tempCont ='id="temperature">';
+  const text = newDoc.search(tempCont);
+  console.log(text);
+  console.log(newDoc[text+tempCont.length+1]);
+}
+
+setInterval(test, 1000);
