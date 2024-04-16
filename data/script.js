@@ -18,10 +18,10 @@ const updateValues = function () {
   else if (tempV >= 30) temperatureIcon.textContent = temperatureIconNames[2];
 
   let humV = humidityValue.textContent;
-  if (humV > 0 && humV < 50) humidityIcon.textContent = humidityIconNames[0];
-  else if (humV >= 50 && humV < 90)
+  if (humV > 0 && humV < 40) humidityIcon.textContent = humidityIconNames[0];
+  else if (humV >= 40 && humV < 70)
     humidityIcon.textContent = humidityIconNames[1];
-  else if (humV > 90) humidityIcon.textContent = humidityIconNames[2];
+  else if (humV > 70) humidityIcon.textContent = humidityIconNames[2];
 };
 
 setInterval(updateValues, 1000);

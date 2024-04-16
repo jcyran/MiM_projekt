@@ -18,6 +18,7 @@ String processor(const String&);
 void setup() {
   Serial.begin(9600);
   bme280Init(bme);
+
   if (!SPIFFS.begin(true)) {
       Serial.println("An Error has occurred while mounting SPIFFS");
       return;
