@@ -37,7 +37,9 @@ const test = async function(){
   const tempCont ='id="temperature">';
   const text = newDoc.search(tempCont);
   console.log(text);
-  console.log(newDoc[text+tempCont.length+1]);
+  const data = newDoc.substring(text+tempCont.length);
+  // w tym data dodać search od id do pierwszego <
+  console.log(newDoc[text+tempCont.length]);
 }
 
 setInterval(test, 1000);
