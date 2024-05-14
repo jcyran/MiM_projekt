@@ -8,6 +8,10 @@ const humidityIcon = document.getElementById("humidity-icon");
 const humidityIconNames = ["humidity_low", "humidity_mid", "humidity_high"];
 const temperatureIconNames = ["ac_unit", "thermometer", "mode_heat"];
 
+const stopBtn = document.querySelector(".stop-btn");
+
+let isRunning = true;
+
 const updateValues = function () {
   location.reload();
 
@@ -28,18 +32,44 @@ const updateValues = function () {
   else if (humV > 70) humidityIcon.textContent = humidityIconNames[2];
 };
 
+// setInterval(updateValues, 5000);
 
-setInterval(updateValues, 5000);
-
-const test = async function(){
-  const newDoc = await fetch("http://192.168.121.223/").then(response=>response.text());
-  console.log(newDoc);
-  const tempCont ='id="temperature">';
+const test = async function () {
+  // const newDoc = await fetch("http://192.168.121.223/").then(response=>response.text());
+  const newDoc = await fetch("http://127.0.0.1:8080/").then((response) =>
+    response.text()
+  );
+  // console.log(newDoc);
+  const tempCont = 'id="temperature">';
   const text = newDoc.search(tempCont);
-  console.log(text);
-  const data = newDoc.substring(text+tempCont.length);
+  // console.log(text);
+  const data = newDoc.substring(text + tempCont.length);
   // w tym data dodać search od id do pierwszego <
-  console.log(newDoc[text+tempCont.length]);
-}
+  // console.log(newDoc[text + tempCont.length]);
+};
 
 setInterval(test, 1000);
+
+const toggleIsRunning = function () {
+  isRunning ? (isRunning = false) : (isRunning = true);
+  return isRunning;
+};
+
+stopBtn.addEventListener("click", async () => {
+  isRunning = toggleIsRunning();
+
+  const response = await fetch("/sending", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ isRunning: isRunning }),
+  });
+  if (response.ok) {
+    isRunning
+      ? (stopBtn.textContent = "START")
+      : (stopBtn.textContent = "STOP");
+  } else {
+    console.error("Failed to send the isRunning value to the server");
+  }
+});
